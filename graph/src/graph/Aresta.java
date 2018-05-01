@@ -4,9 +4,16 @@ public class Aresta {
 
     private Node node1;
     private Node node2;
-    private int peso;
+    private double valor;
 
     public Aresta(Node v1, Node v2) {
+        this.node1 = v1;
+        this.node2 = v2;
+        this.valor = 0;
+    }
+
+    public Aresta(Node v1, Node v2, Double valor){
+        this.valor = valor;
         this.node1 = v1;
         this.node2 = v2;
     }
@@ -15,12 +22,12 @@ public class Aresta {
         return node1;
     }
 
-    public Node getV2() {
-        return node2;
+    public Node getNode2() {
+        return this.node2;
     }
 
-    public int getPeso() {
-        return peso;
+    public double getvalor() {
+        return this.valor;
     }
 
     public boolean temAresta(Node v1, Node v2){

@@ -1,19 +1,30 @@
 package graph;
 
-public class Node {
-    private String valor;
-    private int peso;
-    int nome;
+import java.util.Objects;
 
-    public String getValor() {
+public class Node {
+
+    int valor;
+
+    public Node(int valor){
+        this.valor = valor;
+    }
+
+    public int getValor() {
         return valor;
     }
 
-    public int getPeso() {
-        return peso;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Node node = (Node) o;
+        return valor == node.valor;
     }
 
-    public void setPeso(int peso) {
-        this.peso = peso;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(valor);
     }
 }
