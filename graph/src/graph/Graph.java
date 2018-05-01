@@ -1,5 +1,6 @@
 package graph;
 
+import java.io.File;
 import java.util.*;
 public class Graph{
     private ArrayList<Node> vertices;
@@ -17,6 +18,11 @@ public class Graph{
     public ArrayList<Node> getVertices(){
         return this.vertices;
     }
+
+    public void readGraph(File path){ }
+
+    public void readWeightedGraph(File path){ }
+
 
 
 
