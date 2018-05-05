@@ -14,6 +14,14 @@ public class Graph {
 
 	public static void main(String[] args) {
 		Graph grafo = new Graph();
+		try {
+			grafo.readGraph(new File("C:\\Users\\Tainah\\Desktop\\q1_grafos.txt"));
+			Node node = new Node(5);
+			System.out.println(grafo.getGrafo().get(node));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
@@ -30,11 +38,10 @@ public class Graph {
 	public ArrayList<Node> getVertices() {
 		return this.vertices;
 	}
-	
+
 	public HashMap<Node, ArrayList<Aresta>> getGrafo() {
 		return grafo;
 	}
-
 
 	public void readGraph(File path) throws IOException {
 		FileReader arq = new FileReader(path);
@@ -42,29 +49,53 @@ public class Graph {
 		String linha;
 		linha = lerArq.readLine();
 		int qtdVertices = Integer.parseInt(linha);
-		while (linha != null) {
+		ArrayList<Aresta> arestasGrafo;
+
+		while ((linha = lerArq.readLine()) != null) {
 			// primeiro elemento (Node no hasmap): vertice inicial
 			// demais elementos(lista de Arestas no hasmap): elementos que se
 			// conectam o vertice inicial
 			String[] aux = linha.split(" ");
+			System.out.println(Arrays.toString(aux));
 			Node node1 = new Node(Integer.parseInt(aux[0]));
 			Node node2 = new Node(Integer.parseInt(aux[1]));
-			this.grafo.put(node1, getArestas()).add(new Aresta(node1, node2));
+			Aresta aresta = new Aresta(node1, node2);
+			this.arestas.add(aresta);
+			if (!grafo.containsKey(node1)) {
+				arestasGrafo = new ArrayList<Aresta>();
+				arestasGrafo.add(aresta);
+				this.grafo.put(node1, arestasGrafo);
+
+			} else {
+				this.grafo.get(node1).add(aresta);
+			}
+			if (!grafo.containsKey(node2)) {
+				arestasGrafo = new ArrayList<Aresta>();
+				arestasGrafo.add(aresta);
+				this.grafo.put(node2, arestasGrafo);
+
+			} else {
+				this.grafo.get(node2).add(aresta);
+			}
+
 			if (!getVertices().contains(node1)) {
 				getVertices().add(node1);
-			} else if (!getVertices().contains(node2)) {
+			}
+			if (!getVertices().contains(node2)) {
 				getVertices().add(node2);
 			}
 
 		}
-        arq.close();
-        lerArq.close();
-        
+		arq.close();
+		lerArq.close();
 
 	}
-
 
 	public void readWeightedGraph(File path) {
 	}
 
+	@Override
+	public String toString() {
+		return "Graph [grafo=" + grafo + "]";
+	}
 }

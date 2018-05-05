@@ -2,7 +2,7 @@ package graph;
 
 public class Aresta {
 
-    private Node node1;
+	private Node node1;
     private Node node2;
     private double valor;
 
@@ -36,4 +36,10 @@ public class Aresta {
     public boolean contemVertice(Node v){
         return node1.equals(v) || node2.equals(v);
     }
+    
+
+    @Override
+	public String toString() {
+		return "Aresta [ "+ node1 + " "+node2 +" ]";
+	}
 }
