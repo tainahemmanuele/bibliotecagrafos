@@ -31,7 +31,7 @@ public class Node {
     
     @Override
 	public String toString() {
-		return "Node [valor=" + valor + "]";
+		return ""+valor;
 	}
 
 }

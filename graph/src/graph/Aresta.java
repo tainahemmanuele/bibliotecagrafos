@@ -40,6 +40,6 @@ public class Aresta {
 
     @Override
 	public String toString() {
-		return "Aresta [ "+ node1 + " "+node2 +" ]";
+		return "Aresta que conecta os vertices : "+ node1 + ", "+node2 +" " + "Peso da arestas entre os vertices: " +valor;
 	}
 }
