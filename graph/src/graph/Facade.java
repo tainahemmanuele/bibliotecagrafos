@@ -16,9 +16,11 @@ public class Facade {
         return null;
     }
 
-    public int getVertexNumber(Graph graph){return 0;}
+    public int getVertexNumber(Graph graph){
+    	return graph.getVertices().size();}
 
-    public int getEdgeNumber(Graph graph){return 0;}
+    public int getEdgeNumber(Graph graph){
+    	return graph.getArestas().size();}
 
     public float getMeanEdge(Graph graph){return 0;}
 
