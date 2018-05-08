@@ -4,7 +4,8 @@ import java.util.Objects;
 
 public class Node {
 
-    int valor;
+
+	int valor;
 
     public Node(int valor){
         this.valor = valor;
@@ -27,4 +28,10 @@ public class Node {
 
         return Objects.hash(valor);
     }
+    
+    @Override
+	public String toString() {
+		return ""+valor;
+	}
+
 }
