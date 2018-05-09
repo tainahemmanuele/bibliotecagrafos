@@ -31,7 +31,7 @@ public class Graph {
 		try {
 			grafo.readWeightedGraph(new File("C:\\Users\\Tainah\\Desktop\\q2_grafos.txt"));
 			Node node = new Node(5);
-			System.out.println(grafo.getArestas().get(1).getNode1());
+			System.out.println(grafo.getArestas());
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
