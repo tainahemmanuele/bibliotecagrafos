@@ -26,18 +26,6 @@ public class Graph {
 															// conectam aquele
 															// no a outros nós
 
-	public static void main(String[] args) {
-		Graph grafo = new Graph();
-		try {
-			grafo.readWeightedGraph(new File("C:\\Users\\Tainah\\Desktop\\q2_grafos.txt"));
-			Node node = new Node(5);
-			System.out.println(grafo.getArestas().get(1).getNode1());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
 
 	public Graph() {
 		this.vertices = new ArrayList<Node>();
@@ -194,6 +182,19 @@ public class Graph {
 		arq.close();
 		lerArq.close(); //Fim da leitura do arquivo
 
+	}
+	
+	// Retorna lista de vertices adjacentes ao vertice escolhido no parametro.
+	public ArrayList<Node> getAdjacentes(Node no) {
+		ArrayList<Node> adjacentes = new ArrayList<Node>();
+    	for (Aresta aresta : this.arestas) {
+			if (aresta.getNode1().equals(no)) {
+				adjacentes.add(aresta.getNode2());
+			} else if (aresta.getNode2().equals(no)) {
+				adjacentes.add(aresta.getNode1());
+			}
+		}
+		return adjacentes;
 	}
 
 	@Override

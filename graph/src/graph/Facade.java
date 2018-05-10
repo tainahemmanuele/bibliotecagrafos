@@ -69,9 +69,38 @@ public class Facade {
 		return resultado;
 	}
 
-    public String DFS(Graph graph, Node s){
-        return null;
+	public String DFS(Graph graph, Node s){
+		// DFS
+    	boolean[] visitados = new boolean[graph.getVertices().size()]; // false = nao visitado, true = visitado
+    	Node[] pais = new Node[graph.getVertices().size()];
+    	int[] niveis = new int[graph.getVertices().size()];
+    	niveis[graph.getVertices().indexOf(s)] = 0;
+    	DFSRec(graph, s, visitados, pais, niveis);
+    	
+    	// Formatacao de saida
+    	String resultado = "";
+    	for (int i = 0; i <= graph.getVertices().size(); i++) {
+			resultado += i + " - " + niveis[graph.getVertices().indexOf(graph.getVertices().get(i))] + " ";  // padrao 'vertice - nivel '
+			if (pais[graph.getVertices().indexOf(graph.getVertices().get(i))] == null) { // Se o pai for null
+				resultado += "-";
+			} else {
+				resultado += pais[graph.getVertices().indexOf(graph.getVertices().get(i))].getValor(); // Concatena o pai
+			}
+		}
+        return resultado;
     }
+    
+	private void DFSRec(Graph grafo, Node no, boolean[] visitados, Node[] pais, int[] niveis) {
+    	visitados[grafo.getVertices().indexOf(no)] = true;
+    	
+    	for (Node node : grafo.getAdjacentes(no)) {
+			if (visitados[grafo.getVertices().indexOf(node)] == false) {
+				pais[grafo.getVertices().indexOf(node)] = no;
+				niveis[grafo.getVertices().indexOf(node)] = niveis[grafo.getVertices().indexOf(no)] + 1;
+				DFSRec(grafo, node, visitados, pais, niveis);
+			}
+		}
+	}
 
     public int getVertexNumber(Graph graph){
     	return graph.getVertices().size();}
