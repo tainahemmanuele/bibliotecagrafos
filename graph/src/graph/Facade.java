@@ -4,10 +4,8 @@ import java.util.*;
 
 public class Facade {
 
-    private ExibicaoDoGrafo exibicao;
 
     public Facade(){
-        this.exibicao = new MatrizAdjacencia();
     }
 
    public String BFS(Graph graph, Node s) {
@@ -78,16 +76,20 @@ public class Facade {
     	DFSRec(graph, s, visitados, pais, niveis);
     	
     	// Formatacao de saida
-    	String resultado = "";
-    	for (int i = 0; i <= graph.getVertices().size(); i++) {
-			resultado += i + " - " + niveis[graph.getVertices().indexOf(graph.getVertices().get(i))] + " ";  // padrao 'vertice - nivel '
-			if (pais[graph.getVertices().indexOf(graph.getVertices().get(i))] == null) { // Se o pai for null
-				resultado += "-";
+    	String[] resultado = new String[graph.getVertices().size()];
+    	for (int i = 0; i < graph.getVertices().size(); i++) {
+        	String aux = "";
+    		Node no = graph.getVertices().get(i);
+			aux += no.getValor() + " - " + niveis[graph.getVertices().indexOf(no)] + " ";  // padrao 'vertice - nivel '
+			if (pais[graph.getVertices().indexOf(no)] == null) { // Se o pai for null
+				aux += "-";
 			} else {
-				resultado += pais[graph.getVertices().indexOf(graph.getVertices().get(i))].getValor(); // Concatena o pai
+				aux += pais[graph.getVertices().indexOf(no)].getValor(); // Concatena o pai
 			}
+			resultado[i] = aux;
 		}
-        return resultado;
+    	Arrays.sort(resultado);
+        return String.join(System.lineSeparator(), resultado);
     }
     
 	private void DFSRec(Graph grafo, Node no, boolean[] visitados, Node[] pais, int[] niveis) {
@@ -110,7 +112,16 @@ public class Facade {
 
     public float getMeanEdge(Graph graph){return 0;}
 
-    public String graphRepresentation(Graph graph, String type){return "";}
+    public String graphRepresentation(Graph graph, String type){
+    	if (type.equals("AL")) {
+    		ListaAdjacencia exibicaoAL = new ListaAdjacencia(graph);
+    		return exibicaoAL.toString();
+    	} else if (type.equals("AM")) {
+    		MatrizAdjacencia exibicaoMA = new MatrizAdjacencia(graph);
+    		return exibicaoMA.toString();
+    	}
+    	return "";
+    }
 
     public String SCC(Graph graph){return "";}
 
