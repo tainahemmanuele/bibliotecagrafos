@@ -4,10 +4,8 @@ import java.util.*;
 
 public class Facade {
 
-    private ExibicaoDoGrafo exibicao;
 
     public Facade(){
-        this.exibicao = new MatrizAdjacencia();
     }
 
    public String BFS(Graph graph, Node s) {
@@ -69,9 +67,42 @@ public class Facade {
 		return resultado;
 	}
 
-    public String DFS(Graph graph, Node s){
-        return null;
+	public String DFS(Graph graph, Node s){
+		// DFS
+    	boolean[] visitados = new boolean[graph.getVertices().size()]; // false = nao visitado, true = visitado
+    	Node[] pais = new Node[graph.getVertices().size()];
+    	int[] niveis = new int[graph.getVertices().size()];
+    	niveis[graph.getVertices().indexOf(s)] = 0;
+    	DFSRec(graph, s, visitados, pais, niveis);
+    	
+    	// Formatacao de saida
+    	String[] resultado = new String[graph.getVertices().size()];
+    	for (int i = 0; i < graph.getVertices().size(); i++) {
+        	String aux = "";
+    		Node no = graph.getVertices().get(i);
+			aux += no.getValor() + " - " + niveis[graph.getVertices().indexOf(no)] + " ";  // padrao 'vertice - nivel '
+			if (pais[graph.getVertices().indexOf(no)] == null) { // Se o pai for null
+				aux += "-";
+			} else {
+				aux += pais[graph.getVertices().indexOf(no)].getValor(); // Concatena o pai
+			}
+			resultado[i] = aux;
+		}
+    	Arrays.sort(resultado);
+        return String.join(System.lineSeparator(), resultado);
     }
+    
+	private void DFSRec(Graph grafo, Node no, boolean[] visitados, Node[] pais, int[] niveis) {
+    	visitados[grafo.getVertices().indexOf(no)] = true;
+    	
+    	for (Node node : grafo.getAdjacentes(no)) {
+			if (visitados[grafo.getVertices().indexOf(node)] == false) {
+				pais[grafo.getVertices().indexOf(node)] = no;
+				niveis[grafo.getVertices().indexOf(node)] = niveis[grafo.getVertices().indexOf(no)] + 1;
+				DFSRec(grafo, node, visitados, pais, niveis);
+			}
+		}
+	}
 
     public int getVertexNumber(Graph graph){
     	return graph.getVertices().size();}
@@ -81,7 +112,16 @@ public class Facade {
 
     public float getMeanEdge(Graph graph){return 0;}
 
-    public String graphRepresentation(Graph graph, String type){return "";}
+    public String graphRepresentation(Graph graph, String type){
+    	if (type.equals("AL")) {
+    		ListaAdjacencia exibicaoAL = new ListaAdjacencia(graph);
+    		return exibicaoAL.toString();
+    	} else if (type.equals("AM")) {
+    		MatrizAdjacencia exibicaoMA = new MatrizAdjacencia(graph);
+    		return exibicaoMA.toString();
+    	}
+    	return "";
+    }
 
     public String SCC(Graph graph){return "";}
 
