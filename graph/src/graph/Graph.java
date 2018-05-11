@@ -196,6 +196,24 @@ public class Graph {
 		}
 		return adjacentes;
 	}
+	
+	public boolean temPeso() {
+		for (Aresta aresta : arestas) {
+			if (aresta.getvalor() > 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public Double getPesoAresta(Node no1, Node no2) {
+		for (Aresta aresta : arestas) {
+			if ((aresta.getNode1().equals(no1) && aresta.getNode2().equals(no2)) || (aresta.getNode1().equals(no2) && aresta.getNode2().equals(no1))) {
+				return aresta.getvalor();
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public String toString() {
