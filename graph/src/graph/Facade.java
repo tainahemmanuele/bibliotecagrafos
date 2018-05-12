@@ -143,14 +143,39 @@ public class Facade {
 		distancias.put(vertices.get(0), 0.); //vertice inicial
 		predecessores.put(vertices.get(0), new Node(-1)); //pai do vertice inicial é -1
 
+		for(int i = 0; i < (vertices.size() - 1);i++) {
+			Node auxNode = getMinimo(naoVisitados, distancias);
+			naoVisitados.remove(auxNode);
 
+			for(Node adjacente : graph.getAdjacentes(auxNode)) {
+				if(naoVisitados.contains(adjacente)) {
+					double pesoAresta = graph.getPesoAresta(auxNode, adjacente);
+					if(pesoAresta < distancias.get(adjacente)) {
+						predecessores.put(adjacente, auxNode);
+						distancias.put(adjacente, pesoAresta);
+					}
+				}
+			}
+		}
+		
 		return "";
 		
     }
+    
+  //retorna o vertice nao visitado com a menor distancia
+    private Node getMinimo(Set<Node> naoVisitados, Map<Node, Double> distancias) {
+    	Node minimo = null;
 
-
-
-
-
+    	for(Node vertice : naoVisitados) {
+    		if(minimo == null) {
+    			minimo = vertice;
+    		} else {
+    			if (distancias.get(vertice) < distancias.get(minimo)) {
+    				minimo = vertice;
+    			}
+    		}
+    	}
+    	return minimo;
+    }
 
 }
