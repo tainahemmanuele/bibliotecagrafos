@@ -52,8 +52,9 @@ public class Facade {
 		String resultado = ""; // string do resultado
 		int qtdVertices = getVertexNumber(graph);
 		for (int i = 1; i <= qtdVertices; i++) {
-			String linhai = i + " - "+distancias.get(noAtual)+" ";
+			String linhai = i + " - ";
 			Node noAtual = new Node(i);
+			linhai += distancias.get(noAtual)+" ";
 			if (!noAtual.equals(s)) // verificando se eh diferente do no inicial
 									// para pegar o parente
 				linhai += parentes.get(noAtual);
