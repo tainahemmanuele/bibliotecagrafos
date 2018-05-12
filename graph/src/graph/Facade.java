@@ -52,8 +52,8 @@ public class Facade {
 		String resultado = ""; // string do resultado
 		int qtdVertices = getVertexNumber(graph);
 		for (int i = 1; i <= qtdVertices; i++) {
-			String linhai = i + " - "+distancias.get(noAtual)+" ";
 			Node noAtual = new Node(i);
+			String linhai = i + " - "+distancias.get(noAtual)+" ";
 			if (!noAtual.equals(s)) // verificando se eh diferente do no inicial
 									// para pegar o parente
 				linhai += parentes.get(noAtual);
@@ -103,9 +103,19 @@ public class Facade {
 		}
 	}
 
+	/**
+	 * Retorna o número de vertices do grafo
+	 * @param graph : Grafo a qual se deseja saber o número de vértices
+	 * @return
+	 */
     public int getVertexNumber(Graph graph){
     	return graph.getVertices().size();}
 
+    /**
+     * Retorna o número de arestas de um grafo
+     * @param graph : Grafo a qual se deseja saber o número de arestas
+     * @return
+     */
     public int getEdgeNumber(Graph graph){
     	return graph.getArestas().size();}
 
