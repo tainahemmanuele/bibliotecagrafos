@@ -127,7 +127,30 @@ public class Facade {
 
     public String shortestPath(Node v1, Node v2){return "";}
 
-    public String mst(Graph graph){return "";}
+    public String mst(Graph graph){
+		List<Node> vertices = new ArrayList<Node>(graph.getVertices());
+		Map<Node, Integer> niveis = new HashMap<Node, Integer>();
+		Map<Node, Node> predecessores = new HashMap<Node, Node>();
+		Map<Node, Double> distancias = new HashMap<Node, Double>();
+		Set<Node> naoVisitados = new HashSet<Node>();
+
+
+		for(int i = 0; i < vertices.size(); i++) {
+			distancias.put(vertices.get(i), Double.MAX_VALUE);
+			naoVisitados.add(vertices.get(i));
+		}
+
+		distancias.put(vertices.get(0), 0.); //vertice inicial
+		predecessores.put(vertices.get(0), new Node(-1)); //pai do vertice inicial é -1
+
+
+		return "";
+		
+    }
+
+
+
+
 
 
 }
