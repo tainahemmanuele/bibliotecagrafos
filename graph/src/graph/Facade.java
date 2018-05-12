@@ -166,11 +166,11 @@ public class Facade {
 			}
 		}
 		
-		return "";
+		return printMST(predecessores, niveis, vertices);
 		
     }
     
-  //retorna o vertice nao visitado com a menor distancia
+    //retorna o vertice nao visitado com a menor distancia
     private Node getMinimo(Set<Node> naoVisitados, Map<Node, Double> distancias) {
     	Node minimo = null;
 
@@ -184,6 +184,23 @@ public class Facade {
     		}
     	}
     	return minimo;
+    }
+    
+    private String printMST(Map<Node, Node> predecessores, Map<Node, Integer> niveis, List<Node> vertices) {
+    	String saida = "";
+    	Collections.sort(vertices, new ComparatorNode());
+
+    	for(Node vertice : vertices) {
+    		if(predecessores.get(vertice).getValor() == -1) {
+    			saida += vertice.getValor() + " - " + niveis.get(vertice) +  " -\n";
+    		} else {
+    			saida += vertice.getValor() + " - " + niveis.get(vertice) + " - " + predecessores.get(vertice).getValor() + "\n";
+    		}
+
+
+    	}
+
+    	return saida;
     }
 
 }
