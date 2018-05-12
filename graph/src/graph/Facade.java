@@ -158,6 +158,14 @@ public class Facade {
 			}
 		}
 		
+		for(Node vertice : vertices) {
+			if(vertice.equals(vertices.get(0))) {
+				niveis.put(vertice, 0);
+			} else {
+				niveis.put(vertice, vertices.indexOf(predecessores.get(vertice)) + 1);
+			}
+		}
+		
 		return "";
 		
     }
