@@ -10,28 +10,37 @@ import java.util.*;
 public class Graph {
 	private ArrayList<Node> vertices;
 	private ArrayList<Aresta> arestas;
-	private HashMap<Node, ArrayList<Aresta>> grafo; // Hashmap que representa o
-													// grafo da seguinte forma:
-													// o no é a chave e o valor
-													// é a lista de arestas que
-													// conectam aquele no a
-													// outros nós
-	private HashMap<Node, ArrayList<Aresta>> grafoComPesos; // Hashmap que
-															// representa o
-															// grafo da seguinte
-															// forma: o no é a
-															// chave e o valor é
-															// a lista de
-															// arestas que
-															// conectam aquele
-															// no a outros nós
+	private HashMap<Node, ArrayList<Aresta>> verticeArestas; // * Hashmap que
+																// representa o
+																// grafo da
+																// seguinte
+																// forma: o no é
+																// a chave e o
+																// valor é a
+																// lista de
+																// arestas que
+																// conectam
+																// aquele no a
+																// outros nós
+																// *\\
 
+	public static void main(String[] args) {
+		Graph grafo = new Graph();
+		try {
+			grafo.readWeightedGraph(new File("C:\\Users\\Tainah\\Desktop\\q2_grafos.txt"));
+			Node node = new Node(5);
+			System.out.println(grafo.getVerticeArestas().get(node).size());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	public Graph() {
 		this.vertices = new ArrayList<Node>();
 		this.arestas = new ArrayList<Aresta>();
-		this.grafo = new HashMap<Node, ArrayList<Aresta>>();
-		this.grafoComPesos = new HashMap<Node, ArrayList<Aresta>>();
+		this.verticeArestas = new HashMap<Node, ArrayList<Aresta>>();
 	}
 
 	public ArrayList<Aresta> getArestas() {
@@ -43,9 +52,23 @@ public class Graph {
 	}
 
 	public HashMap<Node, ArrayList<Aresta>> getGrafo() {
-		return grafo;
+		return verticeArestas;
 	}
 
+	public HashMap<Node, ArrayList<Aresta>> getVerticeArestas() {
+		return verticeArestas;
+	}
+
+	/**
+	 * Metódo criado para ler um arquivo texto e a partir dele gerar o grafo,
+	 * que possui uma lista de arestas e uma lista de vertices e um hasmap que
+	 * faz a associação: vertices e as arestas que conectam a cada vertice.
+	 * 
+	 * @param path
+	 *            : Caminho do arquivo texto que possui os dados necessários
+	 *            para criar um grafo
+	 * @throws IOException
+	 */
 	public void readGraph(File path) throws IOException {
 		FileReader arq = new FileReader(path); // Ler o arquivo
 		BufferedReader lerArq = new BufferedReader(arq); // Prepara um buffer
@@ -79,23 +102,23 @@ public class Graph {
 			// Se o Hashmap grafo nao possui como chave o vertice(node1), ele
 			// cria um arraylist que irá salvar todas as arestas que aquele
 			// vertice e conectado e a adiciona na lista
-			if (!grafo.containsKey(node1)) {
+			if (!verticeArestas.containsKey(node1)) {
 				arestasGrafo = new ArrayList<Aresta>();
 				arestasGrafo.add(aresta);
-				this.grafo.put(node1, arestasGrafo);
+				this.verticeArestas.put(node1, arestasGrafo);
 
 			} else { // Caso contrário, apenas adiciona a aresta
-				this.grafo.get(node1).add(aresta);
+				this.verticeArestas.get(node1).add(aresta);
 			}
 			// Se o Hashmap grafo nao possui como chave o vertice2(node2), ele
 			// cria um arraylist que irá salvar todas as arestas que aquele
 			// vertice e conectado
-			if (!grafo.containsKey(node2)) {
+			if (!verticeArestas.containsKey(node2)) {
 				arestasGrafo = new ArrayList<Aresta>();
 				arestasGrafo.add(aresta);
-				this.grafo.put(node2, arestasGrafo);
+				this.verticeArestas.put(node2, arestasGrafo);
 			} else { // Caso contrário adiciona apenas a aresta
-				this.grafo.get(node2).add(aresta);
+				this.verticeArestas.get(node2).add(aresta);
 			}
 			// Verifica se o vertice já está adicionado na lista de vertices do
 			// grafo e adiciona caso não esteja
@@ -112,8 +135,20 @@ public class Graph {
 
 	}
 
+	/**
+	 * Metódo criado para ler um arquivo texto e a partir dele gerar o grafo,
+	 * que possui uma lista de arestas e uma lista de vertices e um hasmap que
+	 * faz a associação: vertices e as arestas que conectam a cada vertice. Como
+	 * este grafo possui pesos nas arestas, há a adição dessa informação na
+	 * criação do objeto aresta.
+	 * 
+	 * @param path
+	 *            :Caminho do arquivo texto que possui os dados necessários para
+	 *            criar um grafo
+	 * @throws IOException
+	 */
 	public void readWeightedGraph(File path) throws IOException {
-		FileReader arq = new FileReader(path);//Prepara um buffer
+		FileReader arq = new FileReader(path);// Prepara um buffer
 		// para a leitura de
 		// arquivo
 		BufferedReader lerArq = new BufferedReader(arq); // Ler a primeira linha
@@ -149,24 +184,24 @@ public class Graph {
 			// Se o Hashmap grafo nao possui como chave o vertice(node1), ele
 			// cria um arraylist que irá salvar todas as arestas que aquele
 			// vertice e conectado e a adiciona na lista
-			if (!grafo.containsKey(node1)) {
+			if (!verticeArestas.containsKey(node1)) {
 				arestasGrafo = new ArrayList<Aresta>();
 				arestasGrafo.add(aresta);
-				this.grafo.put(node1, arestasGrafo);
+				this.verticeArestas.put(node1, arestasGrafo);
 
 			} else {// Caso contrário, apenas adiciona a aresta
-				this.grafo.get(node1).add(aresta);
+				this.verticeArestas.get(node1).add(aresta);
 			}
 			// Se o Hashmap grafo nao possui como chave o vertice2(node2), ele
 			// cria um arraylist que irá salvar todas as arestas que aquele
 			// vertice e conectado
-			if (!grafo.containsKey(node2)) {
+			if (!verticeArestas.containsKey(node2)) {
 				arestasGrafo = new ArrayList<Aresta>();
 				arestasGrafo.add(aresta);
-				this.grafo.put(node2, arestasGrafo);
+				this.verticeArestas.put(node2, arestasGrafo);
 
 			} else { // Caso contrário, apenas adiciona a aresta
-				this.grafo.get(node2).add(aresta);
+				this.verticeArestas.get(node2).add(aresta);
 			}
 
 			// Verifica se o vertice já está adicionado na lista de vertices do
@@ -180,14 +215,14 @@ public class Graph {
 
 		}
 		arq.close();
-		lerArq.close(); //Fim da leitura do arquivo
+		lerArq.close(); // Fim da leitura do arquivo
 
 	}
-	
+
 	// Retorna lista de vertices adjacentes ao vertice escolhido no parametro.
 	public ArrayList<Node> getAdjacentes(Node no) {
 		ArrayList<Node> adjacentes = new ArrayList<Node>();
-    	for (Aresta aresta : this.arestas) {
+		for (Aresta aresta : this.arestas) {
 			if (aresta.getNode1().equals(no)) {
 				adjacentes.add(aresta.getNode2());
 			} else if (aresta.getNode2().equals(no)) {
@@ -196,7 +231,7 @@ public class Graph {
 		}
 		return adjacentes;
 	}
-	
+
 	public boolean temPeso() {
 		for (Aresta aresta : arestas) {
 			if (aresta.getvalor() > 0) {
@@ -205,10 +240,11 @@ public class Graph {
 		}
 		return false;
 	}
-	
+
 	public Double getPesoAresta(Node no1, Node no2) {
 		for (Aresta aresta : arestas) {
-			if ((aresta.getNode1().equals(no1) && aresta.getNode2().equals(no2)) || (aresta.getNode1().equals(no2) && aresta.getNode2().equals(no1))) {
+			if ((aresta.getNode1().equals(no1) && aresta.getNode2().equals(no2))
+					|| (aresta.getNode1().equals(no2) && aresta.getNode2().equals(no1))) {
 				return aresta.getvalor();
 			}
 		}
@@ -217,6 +253,6 @@ public class Graph {
 
 	@Override
 	public String toString() {
-		return "Graph [grafo=" + grafo + "]";
+		return "Graph [grafo=" + verticeArestas + "]";
 	}
 }
