@@ -4,11 +4,10 @@ import java.util.*;
 
 public class Facade {
 
+	public Facade() {
+	}
 
-    public Facade(){
-    }
-
-   public String BFS(Graph graph, Node s) {
+	public String BFS(Graph graph, Node s) {
 		Queue<Node> q = new LinkedList<Node>(); // Fila para realizar bfs
 		List<Aresta> arestas = graph.getArestas(); // Arestas do grafo
 		Map<Node, Integer> distancias = new HashMap<Node, Integer>(); // Mapa de
@@ -67,20 +66,20 @@ public class Facade {
 		return resultado;
 	}
 
-	public String DFS(Graph graph, Node s){
+	public String DFS(Graph graph, Node s) {
 		// DFS
-    	boolean[] visitados = new boolean[graph.getVertices().size()]; // false = nao visitado, true = visitado
-    	Node[] pais = new Node[graph.getVertices().size()];
-    	int[] niveis = new int[graph.getVertices().size()];
-    	niveis[graph.getVertices().indexOf(s)] = 0;
-    	DFSRec(graph, s, visitados, pais, niveis);
-    	
-    	// Formatacao de saida
-    	String[] resultado = new String[graph.getVertices().size()];
-    	for (int i = 0; i < graph.getVertices().size(); i++) {
-        	String aux = "";
-    		Node no = graph.getVertices().get(i);
-			aux += no.getValor() + " - " + niveis[graph.getVertices().indexOf(no)] + " ";  // padrao 'vertice - nivel '
+		boolean[] visitados = new boolean[graph.getVertices().size()]; // false = nao visitado, true = visitado
+		Node[] pais = new Node[graph.getVertices().size()];
+		int[] niveis = new int[graph.getVertices().size()];
+		niveis[graph.getVertices().indexOf(s)] = 0;
+		DFSRec(graph, s, visitados, pais, niveis);
+
+		// Formatacao de saida
+		String[] resultado = new String[graph.getVertices().size()];
+		for (int i = 0; i < graph.getVertices().size(); i++) {
+			String aux = "";
+			Node no = graph.getVertices().get(i);
+			aux += no.getValor() + " - " + niveis[graph.getVertices().indexOf(no)] + " "; // padrao 'vertice - nivel '
 			if (pais[graph.getVertices().indexOf(no)] == null) { // Se o pai for null
 				aux += "-";
 			} else {
@@ -88,14 +87,14 @@ public class Facade {
 			}
 			resultado[i] = aux;
 		}
-    	Arrays.sort(resultado);
-        return String.join(System.lineSeparator(), resultado);
-    }
-    
+		Arrays.sort(resultado);
+		return String.join(System.lineSeparator(), resultado);
+	}
+
 	private void DFSRec(Graph grafo, Node no, boolean[] visitados, Node[] pais, int[] niveis) {
-    	visitados[grafo.getVertices().indexOf(no)] = true;
-    	
-    	for (Node node : grafo.getAdjacentes(no)) {
+		visitados[grafo.getVertices().indexOf(no)] = true;
+
+		for (Node node : grafo.getAdjacentes(no)) {
 			if (visitados[grafo.getVertices().indexOf(node)] == false) {
 				pais[grafo.getVertices().indexOf(node)] = no;
 				niveis[grafo.getVertices().indexOf(node)] = niveis[grafo.getVertices().indexOf(no)] + 1;
@@ -104,25 +103,69 @@ public class Facade {
 		}
 	}
 
-    public int getVertexNumber(Graph graph){
-    	return graph.getVertices().size();}
+	/**
+	 * Retorna o número de vertices do grafo
+	 * 
+	 * @param graph
+	 *            : Grafo a qual se deseja saber o número de vértices
+	 * @return : número de vértices de um grafo
+	 */
+	public int getVertexNumber(Graph graph) {
+		return graph.getVertices().size();
+	}
 
-    public int getEdgeNumber(Graph graph){
-    	return graph.getArestas().size();}
+	/**
+	 * Retorna o número de arestas de um grafo
+	 * 
+	 * @param graph
+	 *            : Grafo a qual se deseja saber o número de arestas
+	 * @return : número de arestas de um grafo
+	 */
+	public int getEdgeNumber(Graph graph) {
+		return graph.getArestas().size();
+	}
 
-    public float getMeanEdge(Graph graph){return 0;}
+	/**
+	 * Retorna o grau medio de um grafo. Para isso, a partir
+	 * 
+	 * @param graph
+	 *            : Grafo a qual se deseja saber o grau médio
+	 * @return: grau médio de um grafo
+	 */
+	public float getMeanEdge(Graph graph) {
+		int soma = 0;
+		float media = 0;
+		for (int i = 0; i < graph.getVertices().size(); i++) {
+			Node node = graph.getVertices().get(i);
+			soma += graph.getVerticeArestas().get(node).size(); // No hashmap da
+																// classe grafo,
+																// a partir de
+																// um vertice,
+																// consulta a
+																// lista de
+																// arestas que
+																// se conecta a
+																// ele e pega a
+																// quantidade
+																// das mesmas e
+																// soma a cada
+																// iteração
 
-    public String graphRepresentation(Graph graph, String type){
-    	if (type.equals("AL")) {
-    		ListaAdjacencia exibicaoAL = new ListaAdjacencia(graph);
-    		return exibicaoAL.toString();
-    	} else if (type.equals("AM")) {
-    		MatrizAdjacencia exibicaoMA = new MatrizAdjacencia(graph);
-    		return exibicaoMA.toString();
-    	}
-    	return "";
-    }
+		}
+		media = soma / (graph.getVertices().size()); // Divide a soma anterior pela quantidade de vertices total do grafo
+		return media;
+	}
 
+	public String graphRepresentation(Graph graph, String type) {
+		if (type.equals("AL")) {
+			ListaAdjacencia exibicaoAL = new ListaAdjacencia(graph);
+			return exibicaoAL.toString();
+		} else if (type.equals("AM")) {
+			MatrizAdjacencia exibicaoMA = new MatrizAdjacencia(graph);
+			return exibicaoMA.toString();
+		}
+		return "";
+	}
     public boolean connected(Graph graph){
     	Set<Node> visitados = new HashSet<Node>();
     	dfs(graph.getVertices().get(0), visitados, graph);
@@ -222,11 +265,8 @@ public class Facade {
     		} else {
     			saida += vertice.getValor() + " - " + niveis.get(vertice) + " - " + predecessores.get(vertice).getValor() + "\n";
     		}
-
-
+    		
     	}
-
     	return saida;
     }
-
 }
