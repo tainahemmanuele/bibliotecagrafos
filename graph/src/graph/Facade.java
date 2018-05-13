@@ -127,7 +127,80 @@ public class Facade {
 
     public String shortestPath(Node v1, Node v2){return "";}
 
-    public String mst(Graph graph){return "";}
+    public String mst(Graph graph){
+		List<Node> vertices = new ArrayList<Node>(graph.getVertices());
+		Map<Node, Integer> niveis = new HashMap<Node, Integer>();
+		Map<Node, Node> predecessores = new HashMap<Node, Node>();
+		Map<Node, Double> distancias = new HashMap<Node, Double>();
+		Set<Node> naoVisitados = new HashSet<Node>();
 
+
+		for(int i = 0; i < vertices.size(); i++) {
+			distancias.put(vertices.get(i), Double.MAX_VALUE);
+			naoVisitados.add(vertices.get(i));
+		}
+
+		distancias.put(vertices.get(0), 0.); //vertice inicial
+		predecessores.put(vertices.get(0), new Node(-1)); //pai do vertice inicial é -1
+
+		for(int i = 0; i < (vertices.size() - 1);i++) {
+			Node auxNode = getMinimo(naoVisitados, distancias);
+			naoVisitados.remove(auxNode);
+
+			for(Node adjacente : graph.getAdjacentes(auxNode)) {
+				if(naoVisitados.contains(adjacente)) {
+					double pesoAresta = graph.getPesoAresta(auxNode, adjacente);
+					if(pesoAresta < distancias.get(adjacente)) {
+						predecessores.put(adjacente, auxNode);
+						distancias.put(adjacente, pesoAresta);
+					}
+				}
+			}
+		}
+		
+		for(Node vertice : vertices) {
+			if(vertice.equals(vertices.get(0))) {
+				niveis.put(vertice, 0);
+			} else {
+				niveis.put(vertice, vertices.indexOf(predecessores.get(vertice)) + 1);
+			}
+		}
+		
+		return printMST(predecessores, niveis, vertices);
+		
+    }
+    
+    //retorna o vertice nao visitado com a menor distancia
+    private Node getMinimo(Set<Node> naoVisitados, Map<Node, Double> distancias) {
+    	Node minimo = null;
+
+    	for(Node vertice : naoVisitados) {
+    		if(minimo == null) {
+    			minimo = vertice;
+    		} else {
+    			if (distancias.get(vertice) < distancias.get(minimo)) {
+    				minimo = vertice;
+    			}
+    		}
+    	}
+    	return minimo;
+    }
+    
+    private String printMST(Map<Node, Node> predecessores, Map<Node, Integer> niveis, List<Node> vertices) {
+    	String saida = "";
+    	Collections.sort(vertices, new ComparatorNode());
+
+    	for(Node vertice : vertices) {
+    		if(predecessores.get(vertice).getValor() == -1) {
+    			saida += vertice.getValor() + " - " + niveis.get(vertice) +  " -\n";
+    		} else {
+    			saida += vertice.getValor() + " - " + niveis.get(vertice) + " - " + predecessores.get(vertice).getValor() + "\n";
+    		}
+
+
+    	}
+
+    	return saida;
+    }
 
 }
