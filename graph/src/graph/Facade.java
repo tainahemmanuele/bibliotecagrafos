@@ -123,9 +123,35 @@ public class Facade {
     	return "";
     }
 
-    public String SCC(Graph graph){return "";}
+    public boolean connected(Graph graph){
+    	Set<Node> visitados = new HashSet<Node>();
+    	dfs(graph.getVertices().get(0), visitados, graph);
+    	
+    	for(Node vertice : graph.getVertices()) {
+    		if(!visitados.contains(vertice)) {
+    			return false;
+    		}
+    	}
+    	
+    	return true;
+    }
 
-    public String shortestPath(Node v1, Node v2){return "";}
+    private void dfs(Node node, Set<Node> visitados, Graph grafo) {
+		if(visitados.contains(node)) {
+			return;
+		}
+		
+		visitados.add(node);
+		
+		for(Node adjacente : grafo.getAdjacentes(node)) {
+			if(!visitados.contains(adjacente)) {
+				dfs(adjacente, visitados, grafo);
+			}
+		}
+		
+	}
+
+	public String shortestPath(Node v1, Node v2){return "";}
 
     public String mst(Graph graph){
 		List<Node> vertices = new ArrayList<Node>(graph.getVertices());
