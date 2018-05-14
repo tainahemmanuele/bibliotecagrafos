@@ -234,7 +234,7 @@ public class Graph {
 
 	public boolean temPeso() {
 		for (Aresta aresta : arestas) {
-			if (aresta.getvalor() > 0) {
+			if (aresta.getvalor() > 0 || aresta.getvalor() < 0) {
 				return true;
 			}
 		}
