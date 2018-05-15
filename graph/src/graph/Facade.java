@@ -104,13 +104,58 @@ public class Facade {
 		}
 	}
 
-    public int getVertexNumber(Graph graph){
-    	return graph.getVertices().size();}
+	/**
+	 * Retorna o número de vertices do grafo
+	 * 
+	 * @param graph
+	 *            : Grafo a qual se deseja saber o número de vértices
+	 * @return : número de vértices de um grafo
+	 */
+	public int getVertexNumber(Graph graph) {
+		return graph.getVertices().size();
+	}
 
-    public int getEdgeNumber(Graph graph){
-    	return graph.getArestas().size();}
+	/**
+	 * Retorna o número de arestas de um grafo
+	 * 
+	 * @param graph
+	 *            : Grafo a qual se deseja saber o número de arestas
+	 * @return : número de arestas de um grafo
+	 */
+	public int getEdgeNumber(Graph graph) {
+		return graph.getArestas().size();
+	}
 
-    public float getMeanEdge(Graph graph){return 0;}
+	/**
+	 * Retorna o grau medio de um grafo. Para isso, a partir
+	 * 
+	 * @param graph
+	 *            : Grafo a qual se deseja saber o grau médio
+	 * @return: grau médio de um grafo
+	 */
+	public float getMeanEdge(Graph graph) {
+		int soma = 0;
+		float media = 0;
+		for (int i = 0; i < graph.getVertices().size(); i++) {
+			Node node = graph.getVertices().get(i);
+			soma += graph.getVerticeArestas().get(node).size(); // No hashmap da
+																// classe grafo,
+																// a partir de
+																// um vertice,
+																// consulta a
+																// lista de
+																// arestas que
+																// se conecta a
+																// ele e pega a
+																// quantidade
+																// das mesmas e
+																// soma a cada
+																// iteração
+
+		}
+		media = soma / (graph.getVertices().size()); // Divide a soma anterior pela quantidade de vertices total do grafo
+		return media;
+	}
 
     public String graphRepresentation(Graph graph, String type){
     	if (type.equals("AL")) {
@@ -173,6 +218,9 @@ public class Facade {
 	 * */
     public String mst(Graph graph){
     	final int PAI_DA_RAIZ = -1;
+    	final double DISTANCIA_INICIAL = 0.;
+    	final int NIVEL_INICIAL = 0;
+    	
 		List<Node> vertices = new ArrayList<Node>(graph.getVertices());
 		Map<Node, Integer> niveis = new HashMap<Node, Integer>();
 		Map<Node, Node> pais = new HashMap<Node, Node>();
@@ -185,9 +233,9 @@ public class Facade {
 			naoVisitados.add(vertices.get(i));
 		}
 
-		distancias.put(vertices.get(0), 0.); //vertice inicial
+		distancias.put(vertices.get(0), DISTANCIA_INICIAL); //vertice inicial
 		pais.put(vertices.get(0), new Node(PAI_DA_RAIZ)); //pai do vertice inicial e -1
-		niveis.put(vertices.get(0), 0); //nivel do vertice inicial e 0
+		niveis.put(vertices.get(0), NIVEL_INICIAL); //nivel do vertice inicial e 0
 		
 		//para todos os vertices, menos o ultimo
 		for(int i = 0; i < (vertices.size() - 1);i++) {
