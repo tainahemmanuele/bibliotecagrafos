@@ -24,19 +24,6 @@ public class Graph {
 																// outros nós
 																// *\\
 
-	public static void main(String[] args) {
-		Graph grafo = new Graph();
-		try {
-			grafo.readWeightedGraph(new File("C:\\Users\\Tainah\\Desktop\\q2_grafos.txt"));
-			Node node = new Node(5);
-			System.out.println(grafo.getVerticeArestas().get(node).size());
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
 	public Graph() {
 		this.vertices = new ArrayList<Node>();
 		this.arestas = new ArrayList<Aresta>();
@@ -234,7 +221,7 @@ public class Graph {
 
 	public boolean temPeso() {
 		for (Aresta aresta : arestas) {
-			if (aresta.getvalor() > 0) {
+			if (aresta.getvalor() > 0 || aresta.getvalor() < 0) {
 				return true;
 			}
 		}
