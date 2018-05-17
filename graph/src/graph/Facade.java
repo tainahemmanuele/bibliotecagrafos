@@ -239,6 +239,10 @@ public class Facade {
 	 *@return retorna uma String com as informacoes da MST (Vertice - Nivel - Pai)
 	 * */
     public String mst(Graph graph){
+    	if(!this.connected(graph)) {
+    		return "O grafo nao e conectado!";
+    	}
+    	
     	final int PAI_DA_RAIZ = -1;
     	final double DISTANCIA_INICIAL = 0.;
     	final double INFINITO = Double.MAX_VALUE;
