@@ -2,11 +2,12 @@ package graph;
 
 import java.util.Objects;
 
-public class Node {
+public class Node implements Comparable<Object> {
 
-    int valor;
 
-    public Node(int valor){
+	int valor;
+
+    public Node(int valor) {
         this.valor = valor;
     }
 
@@ -27,4 +28,21 @@ public class Node {
 
         return Objects.hash(valor);
     }
+    
+    @Override
+	public String toString() {
+		return ""+valor;
+	}
+
+	@Override
+	public int compareTo(Object o) {
+		Node node2 = (Node)o;
+		if (this.valor > node2.getValor()) {
+			return 1;
+		} else if (this.valor < node2.getValor()) {
+			return -1;
+		}
+		return 0;
+	}
+
 }
