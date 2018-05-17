@@ -286,45 +286,6 @@ public class Graph {
 		                                                 // algoritmo de Dijdstra.
 	}
 	
-	
-	/*private boolean haveSomeNode(Graph grafo) {
-		if (!grafo.getVertices().isEmpty()) {
-			return true;
-		}else {
-			return false;
-		}
-	}*/
-	
-	/*private boolean itAValidNode(Graph grafo, Node a) {
-		if (haveSomeNode(grafo)) {
-			for (Node node : grafo.getVertices()) {
-				if (node.equals(a)) {
-					return true;
-				}
-			}
-			return false;
-		}else {
-			return false;
-		}
-	}*/
-	/*public Node getNodeWithLeastDistance(Graph grafo, Node u) {
-		if (itAValidNode(grafo, u)) {
-			ArrayList<Node> list = grafo.getAdjacentes(u);
-			
-			Node leastDistance = list.get(0);
-			for (Node node : list) {
-				if (grafo.getPesoAresta(u, node) < grafo.getPesoAresta(u, leastDistance)) {
-					leastDistance = node;
-				}
-			}
-			return leastDistance;
-		}else {
-			return null;
-		}
-		
-	}*/
-	
-	
 	private boolean DontFindEnd(DijkstraArray da) {
 		if (!da.isEmpty()) {
 			return true;
@@ -349,19 +310,6 @@ public class Graph {
 	public Double getPesoArestaSeguro(DijkstraArray data, Graph grafo, Node no1, Node no2) {
 		return getPesoArestaValido(grafo, no1, no2) + penalty(data, no1);
 	}
-	
-	/*private boolean isALeastDistance(Graph grafo, DijkstraArray data, DijksdraNode analized, Node neighbor) {
-		Double worstNumberOfNodes = Double.MAX_VALUE;
-		Double distance = data.getDistance(analized.getNode());
-		Double pesoAresta =  getPesoArestaDijksdra(grafo, neighbor, analized.getNode());
-		Double alt = distance + pesoAresta;
-		
-		if ((alt + (worstNumberOfNodes - data.))) {
-			
-		}
-		
-		return false;
-	}*/
 	
 	/**
 	 * Método que retorna o menor caminho entre 2 nós em um grafo. 
