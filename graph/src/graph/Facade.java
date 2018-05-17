@@ -4,10 +4,14 @@ import java.util.*;
 
 public class Facade {
 
-	public Facade() {
-	}
-
-	public String BFS(Graph graph, Node s) {
+	public Facade() {}
+  /**
+ * Este metodo ira aplicar o algoritmo de busca em largura e retornar a representacao do grafo resultante.
+ * @param graph :Grafo
+ * @param s :Node (vertice) inicial
+ * @return Uma string representando o grafo resultante apos ser percorrido por uma BFS.
+ */ 
+  public String BFS(Graph graph, Node s) {
 		Queue<Node> q = new LinkedList<Node>(); // Fila para realizar bfs
 		List<Aresta> arestas = graph.getArestas(); // Arestas do grafo
 		Map<Node, Integer> distancias = new HashMap<Node, Integer>(); // Mapa de
@@ -118,22 +122,22 @@ public class Facade {
 	}
 
 	/**
-	 * Retorna o número de vertices do grafo
+	 * Retorna o nÃºmero de vertices do grafo
 	 * 
 	 * @param graph
-	 *            : Grafo a qual se deseja saber o número de vértices
-	 * @return : número de vértices de um grafo
+	 *            : Grafo a qual se deseja saber o nÃºmero de vÃ©rtices
+	 * @return : nÃºmero de vÃ©rtices de um grafo
 	 */
 	public int getVertexNumber(Graph graph) {
 		return graph.getVertices().size();
 	}
 
 	/**
-	 * Retorna o número de arestas de um grafo
+	 * Retorna o nÃºmero de arestas de um grafo
 	 * 
 	 * @param graph
-	 *            : Grafo a qual se deseja saber o número de arestas
-	 * @return : número de arestas de um grafo
+	 *            : Grafo a qual se deseja saber o nÃºmero de arestas
+	 * @return : nÃºmero de arestas de um grafo
 	 */
 	public int getEdgeNumber(Graph graph) {
 		return graph.getArestas().size();
@@ -143,8 +147,8 @@ public class Facade {
 	 * Retorna o grau medio de um grafo. Para isso, a partir
 	 * 
 	 * @param graph
-	 *            : Grafo a qual se deseja saber o grau médio
-	 * @return: grau médio de um grafo
+	 *            : Grafo a qual se deseja saber o grau mÃ©dio
+	 * @return: grau mÃ©dio de um grafo
 	 */
 	public float getMeanEdge(Graph graph) {
 		int soma = 0;
@@ -163,7 +167,7 @@ public class Facade {
 																// quantidade
 																// das mesmas e
 																// soma a cada
-																// iteração
+																// iteraÃ§Ã£o
 
 		}
 		media = soma / (graph.getVertices().size()); // Divide a soma anterior pela quantidade de vertices total do grafo
