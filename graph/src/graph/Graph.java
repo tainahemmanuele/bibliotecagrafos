@@ -206,7 +206,11 @@ public class Graph {
 
 	}
 
-	// Retorna lista de vertices adjacentes ao vertice escolhido no parametro.
+	/**
+	 * Este metodo ira pegar todos os vertices adjacentes ao Node passado como parametro.
+	 * @param no :Node
+	 * @return Retorna um ArrayList<Node> com todos os vertices adjacentes de um determinado Node.
+	 */
 	public ArrayList<Node> getAdjacentes(Node no) {
 		ArrayList<Node> adjacentes = new ArrayList<Node>();
 		for (Aresta aresta : this.arestas) {
@@ -219,6 +223,10 @@ public class Graph {
 		return adjacentes;
 	}
 
+	/**
+	 * Metodo para verificar se o grafo tem peso.
+	 * @return True caso o grafo tenha peso positivo ou negativo. False caso o grafo nao tenha peso. 
+	 */
 	public boolean temPeso() {
 		for (Aresta aresta : arestas) {
 			if (aresta.getvalor() > 0 || aresta.getvalor() < 0) {
@@ -228,6 +236,12 @@ public class Graph {
 		return false;
 	}
 
+	/**
+	 * Este metodo pega o peso da aresta que liga dois vertices.
+	 * @param no1 :Node
+	 * @param no2 :Node
+	 * @return O peso (double) de uma aresta que liga dois Nodes. Null se nao houver uma aresta que liga os Nodes.
+	 */
 	public Double getPesoAresta(Node no1, Node no2) {
 		for (Aresta aresta : arestas) {
 			if ((aresta.getNode1().equals(no1) && aresta.getNode2().equals(no2))
