@@ -29,6 +29,14 @@ public class Graph {
 		this.vertices = new ArrayList<Node>();
 		this.arestas = new ArrayList<Aresta>();
 		this.verticeArestas = new HashMap<Node, ArrayList<Aresta>>();
+		setCorrection(this);
+	}
+
+	/**
+	 * @return the correcao
+	 */
+	public Double getCorrecao() {
+		return correcao;
 	}
 
 	public ArrayList<Aresta> getArestas() {
@@ -204,6 +212,7 @@ public class Graph {
 		}
 		arq.close();
 		lerArq.close(); // Fim da leitura do arquivo
+		setCorrection(this);
 
 	}
 
@@ -258,14 +267,30 @@ public class Graph {
 		return "Graph [grafo=" + verticeArestas + "]";
 	}
 	
+	/**
+	 * Método que define um valor de correção.
+	 * Necessário em shortestPath, é o módulo do valor da
+	 * menor aresta no grafo, caso seja negativa. Caso não
+	 * entre no caso anterior, será igual a zero.
+	 * 
+	 * @author Alberto Medeiros Gomes de Figueiredo
+	 * @param grafo
+	 */
 	private void setCorrection(Graph grafo) {
-		if (getMinimumEdgeValue(grafo) >= 0) {
+		if (grafo.getArestas().isEmpty() || getMinimumEdgeValue(grafo) >= 0) {
 			this.correcao = (double) 0;
 		}else {
 			this.correcao = -1 * getMinimumEdgeValue(grafo);
-		}
+			}
 	}
 	
+	/**
+	 * Retorna o valor da aresta de menor peso de um grafo.
+	 * 
+	 * @author Alberto Medeiros Gomes de Figueiredo 
+	 * @param graph - grafo a ser analizado
+	 * @return menor peso em um grafo
+	 */
 	private Double getMinimumEdgeValue(Graph graph) {
 		ArrayList<Aresta> edges = graph.getArestas();
 		
@@ -278,13 +303,61 @@ public class Graph {
 		return minimum;
 	}
 	
-	
+	/**
+	 * Retorna o peso de uma aresta acrecido de uma correção.
+	 * A correção garante que todos os peso sejam positivos caso 
+	 * haja alguma aresta com peso negativo e, portanto, adequados ao 
+	 * algoritmo de Dijdstra. Se não houver pesos negativos, o próprio
+	 * peso será retornado.
+	 * 
+	 * @author Alberto Medeiros Gomes de Figueiredo
+	 * @param grafo - grafo onde se encontra os referidos nós
+	 * @param no1 - nó de origem
+	 * @param no2 - nó de destino
+	 * @return Double maior ou igual a zero
+	 */
 	private Double getPesoArestaValido(Graph grafo, Node no1, Node no2){
-		return grafo.getPesoAresta(no1, no2) + correcao; // O segredo do algoritmo está aqui.
-		                                                 // A correção garante que todos os pesos 
-		                                                 // sejam positivos e, portanto, adequados ao
-		                                                 // algoritmo de Dijdstra.
+		return grafo.getPesoAresta(no1, no2) + correcao;
 	}
+	
+	
+	/*private boolean haveSomeNode(Graph grafo) {
+		if (!grafo.getVertices().isEmpty()) {
+			return true;
+		}else {
+			return false;
+		}
+	}*/
+	
+	/*private boolean itAValidNode(Graph grafo, Node a) {
+		if (haveSomeNode(grafo)) {
+			for (Node node : grafo.getVertices()) {
+				if (node.equals(a)) {
+					return true;
+				}
+			}
+			return false;
+		}else {
+			return false;
+		}
+	}*/
+	/*public Node getNodeWithLeastDistance(Graph grafo, Node u) {
+		if (itAValidNode(grafo, u)) {
+			ArrayList<Node> list = grafo.getAdjacentes(u);
+			
+			Node leastDistance = list.get(0);
+			for (Node node : list) {
+				if (grafo.getPesoAresta(u, node) < grafo.getPesoAresta(u, leastDistance)) {
+					leastDistance = node;
+				}
+			}
+			return leastDistance;
+		}else {
+			return null;
+		}
+		
+	}*/
+	
 	
 	private boolean DontFindEnd(DijkstraArray da) {
 		if (!da.isEmpty()) {
@@ -302,19 +375,82 @@ public class Graph {
 		}
 	}
 	
+	/**
+	 * Define um valor de punição a ser acresentado na análise de um caminho quando
+	 * houve ao menos 1 aresta com peso negativo. Caso contrário, nada será acrescentado.
+	 * 
+	 * Isso é necessário, pois, ao acrecentar uma mesma correção a todos os pesos das
+	 * arestas de um grafo, caminhos com mais arestas receberam mais correções do que
+	 * caminhos com menos, interferindo na escolha do menor caminho.
+	 * 
+	 * Assim, foi definido como padrão para comparações um caminho com 100.000 nós.
+	 *  A partir dai, um acrésimo de correções é definido para que seja justo comparar 
+	 * o nó passado como argumento com um nó desse tamanho.
+	 * 
+	 *  Essa punição também permite uma comparação justa entre caminhos com número de 
+	 * arestas diferêntes e com menos de 100000 nós, bastando que acrescente a devida
+	 * punição aos caminhos analisados.
+	 * 
+	 * @author Alberto Medeiros Gomes de Figueiredo
+	 * @param data - array onde está o grafo segundo o algoritmo de Dijksdra.
+	 * @param no1 - último nó do caminho a ser analizado.
+	 * @return Double - punição necessária para uma comparação justa com um caminho de
+	 * 100.000 nós.
+	 */
 	private Double penalty (DijkstraArray data, Node no1) {
-		Double worstCase = (Double.MAX_VALUE / 4);
+		Double worstCase = (double) (100000);
 		return (worstCase - data.getNodesToOrigin(no1)) * correcao;
 	}
 	
+	/**
+	 * Retorna o peso de uma aresta corrigido para o algoritmo de Dijksdra acrescido 
+	 * de uma devida punição. 
+	 * 
+	 * Tal resultado permite comparar caminhos mesmo que se tenha acrescido uma mesma 
+	 * correção para todas as arestas.
+	 * ATENÇÃO: A ALTERAÇÃO NA ORDEM DOS NÓS PASSADOS ALTERA O RESULTADO.
+	 *  
+	 * @author Alberto Medeiros Gomes de Figueiredo
+	 * @param data - array onde está o grafo segundo o algoritmo de Dijksdra.
+	 * @param grafo - grafo onde se encontra os referidos nós.
+	 * @param no1 - nó de origem
+	 * @param no2 - nó de destino
+	 * @return Double 
+	 */
 	public Double getPesoArestaSeguro(DijkstraArray data, Graph grafo, Node no1, Node no2) {
 		return getPesoArestaValido(grafo, no1, no2) + penalty(data, no1);
+	}
+	
+	/*private boolean isALeastDistance(Graph grafo, DijkstraArray data, DijksdraNode analized, Node neighbor) {
+		Double worstNumberOfNodes = Double.MAX_VALUE;
+		Double distance = data.getDistance(analized.getNode());
+		Double pesoAresta =  getPesoArestaDijksdra(grafo, neighbor, analized.getNode());
+		Double alt = distance + pesoAresta;
+		
+		if ((alt + (worstNumberOfNodes - data.))) {
+			
+		}
+		
+		return false;
+	}*/
+	
+	private ArrayList<Node> getAdjacentesDikstra(Graph grafo, DijkstraArray data, DijksdraNode u){
+		ArrayList<Node> dat = grafo.getAdjacentes(u.getNode());
+		ArrayList<Node> end = new ArrayList<>();
+		for (Node no : dat) {
+			if (data.isInArray(no)) {
+				end.add(no);
+			}
+		}
+		return end;
 	}
 	
 	/**
 	 * Método que retorna o menor caminho entre 2 nós em um grafo. 
 	 * A implementação do método é pelo algoritmo de Dijdstra melhorado, capaz de
 	 * lidar com arestas de peso negativo.
+	 * 
+	 * @author Alberto Medeiros Gomes de Figueiredo
 	 * @param grafo - grafo objeto de analise
 	 * @param a - nó de partida
 	 * @param b - nó de destino
@@ -342,7 +478,7 @@ public class Graph {
 				
 				return generateResult(pilha);
 			}
-			for (Node neighbor : grafo.getAdjacentes(u.getNode())) {
+			for (Node neighbor : grafo.getAdjacentesDikstra(grafo, r, u)) { //grafo.getAdjacentes(u.getNode())
 				Double alt = (r.getDistance(u.getNode()) + getPesoArestaSeguro(r, grafo, u.getNode(), neighbor));
 				if (r.getDistance(neighbor) > alt) {
 					r.setDistance(neighbor, r.getDistance(u.getNode()) + getPesoArestaValido(grafo, u.getNode(), neighbor));
@@ -351,9 +487,9 @@ public class Graph {
 				}
 			}
 		}
-		return null;
-		
+		return null;	
 	}
+	
 	private String generateResult(Stack pilha) {
 		String result = "";
 		while (!pilha.isEmpty()) {
