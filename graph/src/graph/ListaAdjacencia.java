@@ -16,6 +16,11 @@ public class ListaAdjacencia {
 		this.grafo = grafo;
 	}
 	
+	/**
+	 * Controi um HashMap<Node, ArrayList<Node>> a partir de um determinado grafo 
+	 * @param grafo :Grafo
+	 * @return HashMap<Node, ArrayList<Node>> contendo os vertices e arestas do grafo passado no parametro.
+	 */
 	private HashMap<Node, ArrayList<Node>> constroiLista(Graph grafo) {
     	HashMap<Node, ArrayList<Node>> listaAdj = new HashMap<>();
     	for (Node node : grafo.getVertices()) {
@@ -24,6 +29,9 @@ public class ListaAdjacencia {
 		return listaAdj;
 	}
 
+	/**
+	 * Retorna uma string com a representacao do grafo em Lista de Adjacencia.
+	 */
 	@Override
     public String toString() {
 		

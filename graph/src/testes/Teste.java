@@ -117,5 +117,51 @@ public class Teste {
 				   + "6 - 1 0\n"
 				   + "7 - 1 0", facade.mst(grafo4));
 	}
+	
+	/**
+	 * Testa o metodo DFS(Graph graph, Node s) da classe Facade.
+	 */
+	@Test
+	public void testDFS() {
+		assertEquals("1 - 0 -\r\n" + 
+					 "2 - 1 1\r\n" + 
+					 "3 - 3 5\r\n" + 
+					 "4 - 3 5\r\n" + 
+					 "5 - 2 2", facade.DFS(grafo1, grafo1.getVertices().get(0))); //grafo1, Vertice inicial 1.
+		assertEquals("1 - 0 -\r\n" + 
+					 "2 - 1 1\r\n" + 
+					 "3 - 3 5\r\n" + 
+					 "4 - 4 3\r\n" + 
+					 "5 - 2 2", facade.DFS(grafo2, grafo2.getVertices().get(0))); //grafo2, Vertice inicial 1.
+	}
+	
+	/**
+	 * Testa o metodo graphRepresentation(Graph graph, String type) da classe Facade.
+	 */
+	@Test
+	public void testGraphRepresentation() {
+		assertEquals("1 - 2 5\r\n" + 
+					 "2 - 1 5\r\n" + 
+					 "3 - 5\r\n" + 
+					 "4 - 5\r\n" + 
+					 "5 - 1 2 3 4", facade.graphRepresentation(grafo1, "AL")); // Lista de Adjacencia para o grafo1.
+		assertEquals(" 1 2 3 4 5\r\n" + 
+					 "1 0 1 0 0 1\r\n" + 
+					 "2 1 0 0 0 1\r\n" + 
+					 "3 0 0 0 0 1\r\n" + 
+					 "4 0 0 0 0 1\r\n" + 
+					 "5 1 1 1 1 0", facade.graphRepresentation(grafo1, "AM")); // Matriz de Adjacencia para o grafo1.
+		assertEquals("1 - 2(0.1) 5(1)\r\n" + 
+					 "2 - 1(0.1) 5(0.2)\r\n" + 
+					 "3 - 4(-9.5) 5(5)\r\n" + 
+					 "4 - 3(-9.5) 5(2.3)\r\n" + 
+					 "5 - 1(1) 2(0.2) 3(5) 4(2.3)", facade.graphRepresentation(grafo2, "AL")); // Lista de Adjacencia para o grafo2.
+		assertEquals(" 1 2 3 4 5\r\n" + 
+					 "1 0 0.1 0 0 1\r\n" + 
+					 "2 0.1 0 0 0 0.2\r\n" + 
+					 "3 0 0 0 -9.5 5\r\n" + 
+					 "4 0 0 -9.5 0 2.3\r\n" + 
+					 "5 1 0.2 5 2.3 0", facade.graphRepresentation(grafo2, "AM")); // Matriz de Adjacencia para o grafo2.
+	}
 
 }

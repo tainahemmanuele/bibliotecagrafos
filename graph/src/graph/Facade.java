@@ -66,6 +66,12 @@ public class Facade {
 		return resultado;
 	}
 
+	/**
+	 * Este metodo ira aplicar o algoritmo de busca em profundidade e retornar a representacao do grafo resultante.
+	 * @param graph :Grafo
+	 * @param s :Node (vertice) inicial
+	 * @return Uma string representando o grafo resultante apos ser percorrido por uma DFS.
+	 */
 	public String DFS(Graph graph, Node s) {
 		// DFS
 		boolean[] visitados = new boolean[graph.getVertices().size()]; // false = nao visitado, true = visitado
@@ -91,6 +97,14 @@ public class Facade {
 		return String.join(System.lineSeparator(), resultado);
 	}
 
+	/**
+	 * Metodo auxiliar para DFS(Graph graph, Node s) que ira usar recursao para aplicar a busca em profundidade.
+	 * @param grafo
+	 * @param no
+	 * @param visitados
+	 * @param pais
+	 * @param niveis
+	 */
 	private void DFSRec(Graph grafo, Node no, boolean[] visitados, Node[] pais, int[] niveis) {
 		visitados[grafo.getVertices().indexOf(no)] = true;
 
@@ -156,6 +170,12 @@ public class Facade {
 		return media;
 	}
 
+	/**
+	 * Metodo para representar, em string, um grafo em dois tipos diferentes, Lista de Adjacencia (AL) e Matriz de Adjacencia (AM).
+	 * @param graph :Grafo
+	 * @param type :Tipo de representacao
+	 * @return String de uma determinada representacao do grafo escolhido.
+	 */
 	public String graphRepresentation(Graph graph, String type) {
 		if (type.equals("AL")) {
 			ListaAdjacencia exibicaoAL = new ListaAdjacencia(graph);
