@@ -1,16 +1,30 @@
 package graph;
 
-import java.util.LinkedList;
-
 public class DijksdraNode {
 	private DijksdraNode previous;
 	private Double distanceFronOrigin;
+	private Double nodesFronOrigin;
 	private Node node;
 	
-	public DijksdraNode(DijksdraNode previous, Double distanceFronOrigin, Node node) {
+	public DijksdraNode(DijksdraNode previous, Double distanceFronOrigin, Double nodesFronOrigin, Node node) {
 		this.previous = previous;
 		this.distanceFronOrigin = distanceFronOrigin;
+		this.nodesFronOrigin = nodesFronOrigin;
 		this.node = node;
+	}
+
+	/**
+	 * @param nodesFronOrigin the nodesFronOrigin to set
+	 */
+	public void setNodesFronOrigin(Double nodesFronOrigin) {
+		this.nodesFronOrigin = nodesFronOrigin;
+	}
+
+	/**
+	 * @return the nodesFronOrigin
+	 */
+	public Double getNodesFronOrigin() {
+		return nodesFronOrigin;
 	}
 
 	/**
