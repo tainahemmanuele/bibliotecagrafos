@@ -9,7 +9,12 @@ public class Facade {
     public Facade(){
         this.exibicao = new MatrizAdjacencia();
     }
-
+/**
+ * Este metodo ira aplicar o algoritmo de busca em largura e retornar a representacao do grafo resultante.
+ * @param graph :Grafo
+ * @param s :Node (vertice) inicial
+ * @return Uma string representando o grafo resultante apos ser percorrido por uma BFS.
+ */
    public String BFS(Graph graph, Node s) {
 		Queue<Node> q = new LinkedList<Node>(); // Fila para realizar bfs
 		List<Aresta> arestas = graph.getArestas(); // Arestas do grafo
