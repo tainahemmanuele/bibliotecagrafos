@@ -16,8 +16,12 @@ public class DijkstraArray {
 	public void addInEnd(DijksdraNode node) {
 		Data.add(node);
 	}
-	
-	private boolean isInArray(Node node) {
+	/**
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public boolean isInArray(Node node) {
 		int index = getIndex(node);
 		if (index == -1) {
 			return false;

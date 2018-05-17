@@ -231,7 +231,10 @@ public class Facade {
 		
 	}
 
-	public String shortestPath(Node v1, Node v2){return "";}
+    public String shortestPath(Graph grafo, Node v1, Node v2){
+		return grafo.shortestPath(grafo, v1, v2);
+		
+	}
 
 	/**
 	 * Metodo que dado um grafo conexo calcula a Minimum Spanning Tree (Arvore Geradora Minima)
