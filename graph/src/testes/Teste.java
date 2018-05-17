@@ -116,6 +116,7 @@ public class Teste {
 				   + "5 - 1 0\n"
 				   + "6 - 1 0\n"
 				   + "7 - 1 0", facade.mst(grafo4));
+		assertEquals("O grafo nao e conectado!", facade.mst(grafo3));
 	}
 	
 	/**
