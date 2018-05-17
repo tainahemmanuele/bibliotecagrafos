@@ -4,10 +4,14 @@ import java.util.*;
 
 public class Facade {
 
-	public Facade() {
-	}
-
-	public String BFS(Graph graph, Node s) {
+	public Facade() {}
+  /**
+ * Este metodo ira aplicar o algoritmo de busca em largura e retornar a representacao do grafo resultante.
+ * @param graph :Grafo
+ * @param s :Node (vertice) inicial
+ * @return Uma string representando o grafo resultante apos ser percorrido por uma BFS.
+ */ 
+  public String BFS(Graph graph, Node s) {
 		Queue<Node> q = new LinkedList<Node>(); // Fila para realizar bfs
 		List<Aresta> arestas = graph.getArestas(); // Arestas do grafo
 		Map<Node, Integer> distancias = new HashMap<Node, Integer>(); // Mapa de
@@ -66,6 +70,12 @@ public class Facade {
 		return resultado;
 	}
 
+	/**
+	 * Este metodo ira aplicar o algoritmo de busca em profundidade e retornar a representacao do grafo resultante.
+	 * @param graph :Grafo
+	 * @param s :Node (vertice) inicial
+	 * @return Uma string representando o grafo resultante apos ser percorrido por uma DFS.
+	 */
 	public String DFS(Graph graph, Node s) {
 		// DFS
 		boolean[] visitados = new boolean[graph.getVertices().size()]; // false = nao visitado, true = visitado
@@ -91,6 +101,14 @@ public class Facade {
 		return String.join(System.lineSeparator(), resultado);
 	}
 
+	/**
+	 * Metodo auxiliar para DFS(Graph graph, Node s) que ira usar recursao para aplicar a busca em profundidade.
+	 * @param grafo
+	 * @param no
+	 * @param visitados
+	 * @param pais
+	 * @param niveis
+	 */
 	private void DFSRec(Graph grafo, Node no, boolean[] visitados, Node[] pais, int[] niveis) {
 		visitados[grafo.getVertices().indexOf(no)] = true;
 
@@ -104,22 +122,22 @@ public class Facade {
 	}
 
 	/**
-	 * Retorna o número de vertices do grafo
+	 * Retorna o nÃºmero de vertices do grafo
 	 * 
 	 * @param graph
-	 *            : Grafo a qual se deseja saber o número de vértices
-	 * @return : número de vértices de um grafo
+	 *            : Grafo a qual se deseja saber o nÃºmero de vÃ©rtices
+	 * @return : nÃºmero de vÃ©rtices de um grafo
 	 */
 	public int getVertexNumber(Graph graph) {
 		return graph.getVertices().size();
 	}
 
 	/**
-	 * Retorna o número de arestas de um grafo
+	 * Retorna o nÃºmero de arestas de um grafo
 	 * 
 	 * @param graph
-	 *            : Grafo a qual se deseja saber o número de arestas
-	 * @return : número de arestas de um grafo
+	 *            : Grafo a qual se deseja saber o nÃºmero de arestas
+	 * @return : nÃºmero de arestas de um grafo
 	 */
 	public int getEdgeNumber(Graph graph) {
 		return graph.getArestas().size();
@@ -129,8 +147,8 @@ public class Facade {
 	 * Retorna o grau medio de um grafo. Para isso, a partir
 	 * 
 	 * @param graph
-	 *            : Grafo a qual se deseja saber o grau médio
-	 * @return: grau médio de um grafo
+	 *            : Grafo a qual se deseja saber o grau mÃ©dio
+	 * @return: grau mÃ©dio de um grafo
 	 */
 	public float getMeanEdge(Graph graph) {
 		int soma = 0;
@@ -149,13 +167,19 @@ public class Facade {
 																// quantidade
 																// das mesmas e
 																// soma a cada
-																// iteração
+																// iteraÃ§Ã£o
 
 		}
 		media = soma / (graph.getVertices().size()); // Divide a soma anterior pela quantidade de vertices total do grafo
 		return media;
 	}
 
+	/**
+	 * Metodo para representar, em string, um grafo em dois tipos diferentes, Lista de Adjacencia (AL) e Matriz de Adjacencia (AM).
+	 * @param graph :Grafo
+	 * @param type :Tipo de representacao
+	 * @return String de uma determinada representacao do grafo escolhido.
+	 */
 	public String graphRepresentation(Graph graph, String type) {
 		if (type.equals("AL")) {
 			ListaAdjacencia exibicaoAL = new ListaAdjacencia(graph);
@@ -166,6 +190,12 @@ public class Facade {
 		}
 		return "";
 	}
+	
+    /**
+     * Verifica se um grafo e conectado ou nao
+     * @param graph grafo a ser verificado
+     * @return retorna true se for conectado ou false caso contrario.
+     * */
     public boolean connected(Graph graph){
     	Set<Node> visitados = new HashSet<Node>();
     	dfs(graph.getVertices().get(0), visitados, graph);
@@ -178,7 +208,14 @@ public class Facade {
     	
     	return true;
     }
-
+    
+    /**
+     * Metodo especifico para o metodo connected, dado um vertice, ele vai visitar seus adjacentes recursivamente
+     * @param node vertice onde a partir de onde comecara a dfs
+     * @param visitados conjunto de vertices que ja foram visitados
+     * @param grafo o grafo
+     * @return se o vertice ja foi vistado retorna, caso base da recursividade do metodo
+     * */
     private void dfs(Node node, Set<Node> visitados, Graph grafo) {
 		if(visitados.contains(node)) {
 			return;
@@ -196,50 +233,61 @@ public class Facade {
 
 	public String shortestPath(Node v1, Node v2){return "";}
 
+	/**
+	 * Metodo que dado um grafo conexo calcula a Minimum Spanning Tree (Arvore Geradora Minima)
+	 *@param graph grafo que tera sua MST calculada
+	 *@return retorna uma String com as informacoes da MST (Vertice - Nivel - Pai)
+	 * */
     public String mst(Graph graph){
+    	final int PAI_DA_RAIZ = -1;
+    	final double DISTANCIA_INICIAL = 0.;
+    	final double INFINITO = Double.MAX_VALUE;
+    	final int NIVEL_INICIAL = 0;
+    	
 		List<Node> vertices = new ArrayList<Node>(graph.getVertices());
 		Map<Node, Integer> niveis = new HashMap<Node, Integer>();
-		Map<Node, Node> predecessores = new HashMap<Node, Node>();
+		Map<Node, Node> pais = new HashMap<Node, Node>();
 		Map<Node, Double> distancias = new HashMap<Node, Double>();
 		Set<Node> naoVisitados = new HashSet<Node>();
-
-
+		
+		//inicializa as distancias como infinito e adiciona todos os vertices ao conjunto de nao visitados
 		for(int i = 0; i < vertices.size(); i++) {
-			distancias.put(vertices.get(i), Double.MAX_VALUE);
+			distancias.put(vertices.get(i), INFINITO);
 			naoVisitados.add(vertices.get(i));
 		}
 
-		distancias.put(vertices.get(0), 0.); //vertice inicial
-		predecessores.put(vertices.get(0), new Node(-1)); //pai do vertice inicial é -1
-
+		distancias.put(vertices.get(0), DISTANCIA_INICIAL); //vertice inicial
+		pais.put(vertices.get(0), new Node(PAI_DA_RAIZ));
+		niveis.put(vertices.get(0), NIVEL_INICIAL);
+		
+		//para todos os vertices, menos o ultimo
 		for(int i = 0; i < (vertices.size() - 1);i++) {
-			Node auxNode = getMinimo(naoVisitados, distancias);
-			naoVisitados.remove(auxNode);
-
-			for(Node adjacente : graph.getAdjacentes(auxNode)) {
-				if(naoVisitados.contains(adjacente)) {
-					double pesoAresta = graph.getPesoAresta(auxNode, adjacente);
-					if(pesoAresta < distancias.get(adjacente)) {
-						predecessores.put(adjacente, auxNode);
-						distancias.put(adjacente, pesoAresta);
+			Node verticeAtual = getMinimo(naoVisitados, distancias);
+			naoVisitados.remove(verticeAtual);
+			
+			//para cada adjacente do vertice atual
+			for(Node adjacente : graph.getAdjacentes(verticeAtual)) {
+				if(naoVisitados.contains(adjacente)) { //se o adjacente ainda nao foi visitado
+					double pesoAresta = graph.getPesoAresta(verticeAtual, adjacente); //peso da aresta que liga o verticeAtual e seu adjacente
+					if(pesoAresta < distancias.get(adjacente)) { //se a distancia do verticeAtual ate seu adjacente for menor q a distancia atual do adjacente
+						pais.put(adjacente, verticeAtual); //coloca o vertice atual como novo pai do adjacente
+						niveis.put(adjacente, niveis.get(verticeAtual) + 1); //o nivel do adjacente agora sera o nivel do seu pai + 1
+						distancias.put(adjacente, pesoAresta); //e sua nova distancia sera o peso da aresta que liga ele a seu pai
 					}
 				}
 			}
 		}
 		
-		for(Node vertice : vertices) {
-			if(vertice.equals(vertices.get(0))) {
-				niveis.put(vertice, 0);
-			} else {
-				niveis.put(vertice, vertices.indexOf(predecessores.get(vertice)) + 1);
-			}
-		}
-		
-		return printMST(predecessores, niveis, vertices);
+		return mstFormatada(pais, niveis, vertices);
 		
     }
     
-    //retorna o vertice nao visitado com a menor distancia
+    /**
+     * Metodo que calcula o vertice nao visitado com a menor distancia
+     * @param naoVisitados conjunto de vertices nao visitados
+     * @param distancias distancias de cada vertice
+     * @return retorna o vertice nao visitado com a menor distancia
+     * */
     private Node getMinimo(Set<Node> naoVisitados, Map<Node, Double> distancias) {
     	Node minimo = null;
 
@@ -255,15 +303,26 @@ public class Facade {
     	return minimo;
     }
     
-    private String printMST(Map<Node, Node> predecessores, Map<Node, Integer> niveis, List<Node> vertices) {
+    /**
+     * Metodo que formata a String da mst
+     * @param pais mapa que tem todos os vertices e seus respectivos pais
+     * @param niveis mapa que tem todos os vertices e seus respectivos niveis
+     * @param vertices lista com todos os vertices do grafo
+     * @return String da mst formatada
+     * */
+    private String mstFormatada(Map<Node, Node> pais, Map<Node, Integer> niveis, List<Node> vertices) {
     	String saida = "";
+    	final int PAI_DA_RAIZ = -1;
+    	
     	Collections.sort(vertices, new ComparatorNode());
 
     	for(Node vertice : vertices) {
-    		if(predecessores.get(vertice).getValor() == -1) {
+    		if(pais.get(vertice).getValor() == PAI_DA_RAIZ) {
     			saida += vertice.getValor() + " - " + niveis.get(vertice) +  " -\n";
+    		} else if (vertice.equals(vertices.get(vertices.size() - 1))){
+    			saida += vertice.getValor() + " - " + niveis.get(vertice) + " " + pais.get(vertice).getValor();
     		} else {
-    			saida += vertice.getValor() + " - " + niveis.get(vertice) + " - " + predecessores.get(vertice).getValor() + "\n";
+    			saida += vertice.getValor() + " - " + niveis.get(vertice) + " " + pais.get(vertice).getValor() + "\n";
     		}
     		
     	}

@@ -15,6 +15,11 @@ public class MatrizAdjacencia {
 		this.matriz = constroiMatriz(grafo);
 	}
 
+	/**
+	 * Constroi um mapa (String[][]) dos vertices de um grafo e os pesos de cada aresta existente.
+	 * @param grafo
+	 * @return String[][] dos vertices com os valores de peso de cada aresta.
+	 */
 	private String[][] constroiMatriz(Graph grafo) {
 		Collections.sort(this.vertices, comp);
 		String[][] newMatriz = new String[grafo.getVertices().size()][grafo.getVertices().size()];
@@ -41,6 +46,9 @@ public class MatrizAdjacencia {
 		return newMatriz;
 	}
 	
+	/**
+	 * Retorna uma string com a representacao do grafo em Matriz de Adjacencia.
+	 */
     @Override
     public String toString() {
     	String[] resultado = new String[this.matriz.length+1];
