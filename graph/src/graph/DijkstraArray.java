@@ -25,6 +25,20 @@ public class DijkstraArray {
 			return true;
 		}
 	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public Double getNodesToOrigin(Node node) {
+		if (isInArray(node)) {
+			return Data.get(getIndex(node)).getNodesFronOrigin();
+		}else {
+			return null;
+		}
+	}
+	
 	/**
 	 * Retona DijksdraNode, que representa um nó 
 	 * segundo a visão do algoritmo de Dijksdra .
@@ -90,6 +104,14 @@ public class DijkstraArray {
 		}else {
 			return false;
 		}
+	}
+	
+	public boolean setNodesUntilOrigin(Node node, Double quant) {
+		if (isInArray(node)) {
+			Data.get(getIndex(node)).setNodesFronOrigin(quant);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
