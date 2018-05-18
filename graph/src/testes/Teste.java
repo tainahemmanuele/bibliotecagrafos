@@ -194,5 +194,12 @@ public class Teste {
         Assert.assertEquals(output2, facade.BFS(grafo1, grafo1.getVertices().get(2)));
         Assert.assertEquals(output3, facade.BFS(grafo1, grafo1.getVertices().get(3)));
     }
+	
+	@Test
+    public void testshortestPath() {
+		Assert.assertEquals("1 2 5 ", facade.shortestPath(grafo2, new Node(1), new Node(5)));
+		Assert.assertEquals("3 4 5 ", facade.shortestPath(grafo2, new Node(3), new Node(5)));
+		Assert.assertEquals("0 7 4 ", facade.shortestPath(grafo4, new Node(0), new Node(4)));
+	}
 
 }

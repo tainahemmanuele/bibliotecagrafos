@@ -17,7 +17,9 @@ public class DijkstraArray {
 		Data.add(node);
 	}
 	/**
-	 * 
+	 * Verifica se um dado nó está no array que armazena
+	 * o grafo segundo a visão que o algoritmo de Dijkstra
+	 * tem.
 	 * @param node
 	 * @return
 	 */
@@ -31,13 +33,46 @@ public class DijkstraArray {
 	}
 	
 	/**
-	 * 
+	 * Retorna o número de nós existente entre o nó passado e 
+	 * o nó de origem.
 	 * @param node
 	 * @return
 	 */
 	public Double getNodesToOrigin(Node node) {
 		if (isInArray(node)) {
 			return Data.get(getIndex(node)).getNodesFronOrigin();
+		}else {
+			return null;
+		}
+	}
+	
+	/**
+	 * Define a distância válida e passível de ser comparada de um nó
+	 * até o nó de origem.
+	 * @param node - nó que sofrerá a atualização no valor
+	 * @param value - novo valor
+	 * @return Verdadeiro, caso a operação possa ser executada: null, caso
+	 * o nó não exista.
+	 */
+	public boolean setCompDistanceUntilOrigin(Node node, Double value) {
+		if (isInArray(node)) {
+			Data.get(getIndex(node)).setComparableDistanceUntilOrigin(value);
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * Retorna a distância válida e passível de ser comparada de um nó
+	 * até o nó de origem.
+	 * @param node - nó do qual se quer saber a distância
+	 * @return Double - se o nó existir; null, caso o nó não exista.
+	 */
+	public Double getCompDistanceUntilOrigin(Node node) {
+		if (isInArray(node)) {
+			return Data.get(getIndex(node)).getComparableDistanceUntilOrigin();
 		}else {
 			return null;
 		}
