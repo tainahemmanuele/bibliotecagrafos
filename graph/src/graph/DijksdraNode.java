@@ -3,14 +3,32 @@ package graph;
 public class DijksdraNode {
 	private DijksdraNode previous;
 	private Double distanceFronOrigin;
+	private Double comparableDistanceUntilOrigin;
 	private Double nodesFronOrigin;
 	private Node node;
-	
-	public DijksdraNode(DijksdraNode previous, Double distanceFronOrigin, Double nodesFronOrigin, Node node) {
+
+
+	public DijksdraNode(DijksdraNode previous, Double distanceFronOrigin, Double comparableDistanceUntilOrigin,
+			Double nodesFronOrigin, Node node) {
 		this.previous = previous;
 		this.distanceFronOrigin = distanceFronOrigin;
+		this.comparableDistanceUntilOrigin = comparableDistanceUntilOrigin;
 		this.nodesFronOrigin = nodesFronOrigin;
 		this.node = node;
+	}
+
+	/**
+	 * @return the comparableDistanceUntilOrigin
+	 */
+	public Double getComparableDistanceUntilOrigin() {
+		return comparableDistanceUntilOrigin;
+	}
+
+	/**
+	 * @param comparableDistanceUntilOrigin the comparableDistanceUntilOrigin to set
+	 */
+	public void setComparableDistanceUntilOrigin(Double comparableDistanceUntilOrigin) {
+		this.comparableDistanceUntilOrigin = comparableDistanceUntilOrigin;
 	}
 
 	/**
