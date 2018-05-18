@@ -250,7 +250,8 @@ public class Graph {
 	 * Este metodo pega o peso da aresta que liga dois vertices.
 	 * @param no1 :Node
 	 * @param no2 :Node
-	 * @return O peso (double) de uma aresta que liga dois Nodes. Null se nao houver uma aresta que liga os Nodes.
+	 * @return O peso (double) de uma aresta que liga dois Nodes. Null se nao 
+	 * houver uma aresta que liga os Nodes.
 	 */
 	public Double getPesoAresta(Node no1, Node no2) {
 		for (Aresta aresta : arestas) {
@@ -320,45 +321,6 @@ public class Graph {
 		return grafo.getPesoAresta(no1, no2) + correcao;
 	}
 	
-	
-	/*private boolean haveSomeNode(Graph grafo) {
-		if (!grafo.getVertices().isEmpty()) {
-			return true;
-		}else {
-			return false;
-		}
-	}*/
-	
-	/*private boolean itAValidNode(Graph grafo, Node a) {
-		if (haveSomeNode(grafo)) {
-			for (Node node : grafo.getVertices()) {
-				if (node.equals(a)) {
-					return true;
-				}
-			}
-			return false;
-		}else {
-			return false;
-		}
-	}*/
-	/*public Node getNodeWithLeastDistance(Graph grafo, Node u) {
-		if (itAValidNode(grafo, u)) {
-			ArrayList<Node> list = grafo.getAdjacentes(u);
-			
-			Node leastDistance = list.get(0);
-			for (Node node : list) {
-				if (grafo.getPesoAresta(u, node) < grafo.getPesoAresta(u, leastDistance)) {
-					leastDistance = node;
-				}
-			}
-			return leastDistance;
-		}else {
-			return null;
-		}
-		
-	}*/
-	
-	
 	private boolean DontFindEnd(DijkstraArray da) {
 		if (!da.isEmpty()) {
 			return true;
@@ -421,19 +383,6 @@ public class Graph {
 		return getPesoArestaValido(grafo, no1, no2) + penalty(data, no1);
 	}
 	
-	/*private boolean isALeastDistance(Graph grafo, DijkstraArray data, DijksdraNode analized, Node neighbor) {
-		Double worstNumberOfNodes = Double.MAX_VALUE;
-		Double distance = data.getDistance(analized.getNode());
-		Double pesoAresta =  getPesoArestaDijksdra(grafo, neighbor, analized.getNode());
-		Double alt = distance + pesoAresta;
-		
-		if ((alt + (worstNumberOfNodes - data.))) {
-			
-		}
-		
-		return false;
-	}*/
-	
 	private ArrayList<Node> getAdjacentesDikstra(Graph grafo, DijkstraArray data, DijksdraNode u){
 		ArrayList<Node> dat = grafo.getAdjacentes(u.getNode());
 		ArrayList<Node> end = new ArrayList<>();
@@ -463,30 +412,44 @@ public class Graph {
 		DijkstraArray r = new DijkstraArray(new ArrayList<>());
 		
 		for (Node node : n) {
-			r.addInEnd(new DijksdraNode(null, Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, node));
+			r.addInEnd(new DijksdraNode(null, Double.POSITIVE_INFINITY, 
+					Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY, node));
 		}
 		
 		r.setDistance(a, (double) 0);
 		r.setNodesUntilOrigin(a, (double) 0);
+		r.setCompDistanceUntilOrigin(a, null);  // Esse valor só é utilizado em comparações
+		                                        // entre nós vistos como adjacentes a outro nó 
+		                                        // em algum momento da execução.
+		                                        // o nó de origem nunca é visto como adjacente 
+		                                        // a outro nó em Dijkstra.
 		while (DontFindEnd(r)) {
 			DijksdraNode u = r.getNodeWithLeastDistance();
-			r.removeNode(u);
-			
+	
 			if (isATargetNode(u, b)) {
 				
 				Stack pilha = stackingTheNodes(u);
 				
 				return generateResult(pilha);
 			}
-			for (Node neighbor : grafo.getAdjacentesDikstra(grafo, r, u)) { //grafo.getAdjacentes(u.getNode())
-				Double alt = (r.getDistance(u.getNode()) + getPesoArestaSeguro(r, grafo, u.getNode(), neighbor));
-				if (r.getDistance(neighbor) > alt) {
-					r.setDistance(neighbor, r.getDistance(u.getNode()) + getPesoArestaValido(grafo, u.getNode(), neighbor));
+			for (Node neighbor : grafo.getAdjacentesDikstra(grafo, r, u)) { 
+				Double alt = (r.getDistance(u.getNode()) + 
+						getPesoArestaSeguro(r, grafo, u.getNode(), neighbor));
+				
+				Double neighborData = r.getCompDistanceUntilOrigin(neighbor);  
+
+				if (neighborData > alt) {
+					r.setDistance(neighbor, r.getDistance(u.getNode()) + 
+							getPesoArestaValido(grafo, u.getNode(), neighbor));
 					r.setPrevious(neighbor, u);
 					r.setNodesUntilOrigin(neighbor, u.getNodesFronOrigin() + 1);
+					r.setCompDistanceUntilOrigin(neighbor, alt); 
 				}
 			}
+			
+			boolean test = r.removeNode(u);
 		}
+		
 		return null;	
 	}
 	
@@ -499,9 +462,13 @@ public class Graph {
 		return result;
 	}
 	private Stack stackingTheNodes(DijksdraNode u) {
+		DijksdraNode temp = u;
 		Stack pilha = new Stack<>();
-		while (u.getPrevious() != null) {
-			pilha.push(u.getPrevious().getNode().getValor());
+		
+		pilha.push(temp.getNode().getValor());
+		while (temp.getPrevious() != null) {
+			pilha.push(temp.getPrevious().getNode().getValor());
+			temp = temp.getPrevious();
 		}
 		return pilha;
 	}

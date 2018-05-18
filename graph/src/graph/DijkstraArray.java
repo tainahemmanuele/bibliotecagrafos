@@ -43,6 +43,30 @@ public class DijkstraArray {
 		}
 	}
 	
+	
+	public boolean setCompDistanceUntilOrigin(Node node, Double value) {
+		if (isInArray(node)) {
+			Data.get(getIndex(node)).setComparableDistanceUntilOrigin(value);
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @param node
+	 * @return
+	 */
+	public Double getCompDistanceUntilOrigin(Node node) {
+		if (isInArray(node)) {
+			return Data.get(getIndex(node)).getComparableDistanceUntilOrigin();
+		}else {
+			return null;
+		}
+	}
+	
 	/**
 	 * Retona DijksdraNode, que representa um nó 
 	 * segundo a visão do algoritmo de Dijksdra .
