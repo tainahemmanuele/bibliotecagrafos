@@ -164,5 +164,10 @@ public class Teste {
 					 "4 0 0 -9.5 0 2.3\r\n" + 
 					 "5 1 0.2 5 2.3 0", facade.graphRepresentation(grafo2, "AM")); // Matriz de Adjacencia para o grafo2.
 	}
+	
+	@Test
+	public void testshortestPath() {
+		assertEquals(grafo2.shortestPath(grafo2, new Node(1), new Node(5)), "1 2 5 ");
+	}
 
 }
