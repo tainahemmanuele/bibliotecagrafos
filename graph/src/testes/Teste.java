@@ -164,5 +164,35 @@ public class Teste {
 					 "4 0 0 -9.5 0 2.3\r\n" + 
 					 "5 1 0.2 5 2.3 0", facade.graphRepresentation(grafo2, "AM")); // Matriz de Adjacencia para o grafo2.
 	}
+	
+	/**
+	 * Teste que testa o metodo BFS(Graph graph, Node s)
+	 */
+	@Test
+    public void BFS() {
+
+        String output1 = "1 - 0 -\r\n" + 
+                "2 - 1 1\r\n" + 
+                "3 - 2 5\r\n" + 
+                "4 - 2 5\r\n" + 
+                "5 - 1 1\r\n";
+        
+        String output2 = "1 - 1 5\r\n" + 
+                "2 - 1 5\r\n" + 
+                "3 - 1 5\r\n" + 
+                "4 - 1 5\r\n" + 
+                "5 - 0 -\r\n" ;
+        
+        String output3 = "1 - 2 5\r\n" + 
+                "2 - 2 5\r\n" + 
+                "3 - 0 -\r\n" + 
+                "4 - 2 5\r\n" + 
+                "5 - 1 3\r\n" ;
+        
+
+        Assert.assertEquals(output1, facade.BFS(grafo1, grafo1.getVertices().get(0)));
+        Assert.assertEquals(output2, facade.BFS(grafo1, grafo1.getVertices().get(2)));
+        Assert.assertEquals(output3, facade.BFS(grafo1, grafo1.getVertices().get(3)));
+    }
 
 }
