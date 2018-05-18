@@ -197,9 +197,9 @@ public class Teste {
 	
 	@Test
     public void testshortestPath() {
-		Assert.assertEquals("1 2 5 ", grafo2.shortestPath(grafo2, new Node(1), new Node(5)));
-		Assert.assertEquals("3 4 5 ", grafo2.shortestPath(grafo2, new Node(3), new Node(5)));
-		Assert.assertEquals("0 7 4 ", grafo2.shortestPath(grafo4, new Node(0), new Node(4)));
+		Assert.assertEquals("1 2 5 ", facade.shortestPath(grafo2, new Node(1), new Node(5)));
+		Assert.assertEquals("3 4 5 ", facade.shortestPath(grafo2, new Node(3), new Node(5)));
+		Assert.assertEquals("0 7 4 ", facade.shortestPath(grafo4, new Node(0), new Node(4)));
 	}
 
 }
